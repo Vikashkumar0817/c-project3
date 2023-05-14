@@ -1,0 +1,77 @@
+#include <stdio.h>
+#define MAX_EMPLOYEES 100
+typedef struct {
+ char name[100];
+ int employeeID;
+ float salary;
+ char jobTitle[100];
+} Employee;
+void addEmployee(Employee employees[], int *numEmployees) {
+ if (*numEmployees == MAX_EMPLOYEES) {
+ printf("Maximum number of employees reached.\n");
+ return;
+ }
+ Employee newEmployee;
+ printf("Enter name: ");
+ scanf("%s", newEmployee.name);
+ printf("Enter employee ID: ");
+ scanf("%d", &newEmployee.employeeID);
+ printf("Enter salary: ");
+ scanf("%f", &newEmployee.salary);
+ printf("Enter job title: ");
+ scanf("%s", newEmployee.jobTitle);
+ employees[*numEmployees] = newEmployee;
+ (*numEmployees)++;
+ printf("Employee added successfully.\n");
+}
+void displayEmployeeInfo(Employee employee) {
+ printf("Name: %s\n", employee.name);
+ printf("Employee ID: %d\n", employee.employeeID);
+ printf("Salary: %.2f\n", employee.salary);
+ printf("Job Title: %s\n", employee.jobTitle);
+}
+int main() {
+ Employee employees[MAX_EMPLOYEES];
+ int numEmployees = 0;
+ int choice;
+ while (1) {
+ printf("\nEmployee Management System\n");
+ printf("-------------------------\n");
+ printf("1. Add Employee\n");
+ printf("2. Display Employee Information\n");
+ printf("3. Exit\n");
+ printf("Enter your choice: ");
+ scanf("%d", &choice);
+ switch (choice) {
+ case 1:
+ addEmployee(employees, &numEmployees);
+ break;
+ case 2:
+ if (numEmployees == 0) {
+ printf("No employees added yet.\n");
+ } else {
+ int employeeID;
+ printf("Enter employee ID: ");
+ scanf("%d", &employeeID);
+ int found = 0;
+ for (int i = 0; i < numEmployees; i++) {
+ if (employees[i].employeeID == employeeID) {
+ displayEmployeeInfo(employees[i]);
+ found = 1;
+ break;
+ }
+ }
+ if (!found) {
+ printf("Employee not found.\n");
+ }
+ }
+ break;
+ case 3:
+ printf("Exiting program.\n");
+ return 0;
+ default:
+ printf("Invalid choice.\n");
+ }
+ }
+ return 0;
+}
